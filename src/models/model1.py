@@ -17,19 +17,17 @@ class StudentLearningEnv(gym.Env):
         return np.array([self.data.iloc[self.current_step]['skill_score']], dtype=np.float32)
 
     def step(self, action):
-        # Example: Update skill_score based on action
         student_data = self.data.iloc[self.current_step]
         reward = 0
         new_skill_score = student_data['skill_score'] + np.random.uniform(-5, 5)  # Simulated improvement
 
         if action == 0:
-            new_skill_score += 2  # Basic path
+            new_skill_score += 2 
         elif action == 1:
-            new_skill_score += 4  # Intermediate path
+            new_skill_score += 4
         elif action == 2:
-            new_skill_score += 6  # Advanced path
+            new_skill_score += 6 
 
-        # Update data
         self.data.loc[self.current_step, 'skill_score'] = new_skill_score
         reward = new_skill_score - student_data['skill_score']
 
@@ -81,39 +79,32 @@ class StudentLearningEnv(gym.Env):
                   agent.decay_exploration()
 
 
-        # Load data
         data = pd.read_csv('students.csv')
 
-        # Initialize environment and agent
         env = StudentLearningEnv(data)
         agent = QLearningAgent(n_actions=env.action_space.n, n_states=1)  # Assuming 1D state space
 
-        # Train agent
         train(env, agent)
 
-        # Save or evaluate the learned policy
         print(agent.q_table)
 
 
 import pandas as pd
 from collections import defaultdict
 
-# Assuming agent.q_table is the trained Q-table
 def convert_q_table_to_dataframe(q_table):
     state_action_pairs = []
     q_values = []
 
     for state, values in q_table.items():
-        state_action_pairs.append(state)  # State as tuple
-        q_values.append(values)  # List of Q-values for actions
+        state_action_pairs.append(state)
+        q_values.append(values)
 
-    # Create DataFrame
     df_q_table = pd.DataFrame(q_values, columns=[f'Action_{i}' for i in range(len(q_values[0]))])
     df_q_table.insert(0, 'State', state_action_pairs)
 
     return df_q_table
 
-# Usage
 df_q_table = convert_q_table_to_dataframe(agent.q_table)
 print(df_q_table)
 
