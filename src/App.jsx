@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
+// Import the components for each page
+import LandingPage from "./components/landing.jsx";
+import AboutUs from "./components/aboutUs.jsx";
+import EducatorSignUp from "./components/signUp.jsx";
+import {EducatorProvider} from "./context/educator.jsx";
+import LoginPage from "./components/login.jsx";
+import EducatorDashboard from "./components/eduDashboard.jsx";
+// import StudentDashboard from './pages/StudentDashboard';
+// import CoursePage from './pages/CoursePage';
+// import LessonPage from './pages/LessonPage';
+// import ProgressTrackingPage from './pages/ProgressTrackingPage';
+// import SettingsPage from './pages/SettingsPage';
+// import AdminDashboard from './pages/AdminDashboard';
 
 function App() {
-  const [count, setCount] = useState(0)
+    return (
+        <EducatorProvider>
+        <Router>
+            <Routes>
+                {/* Homepage Route */}
+                <Route path="/" element={<LandingPage/>} />
+                <Route path="/about" element={<AboutUs/>} />
+                <Route path="/signup" element={<EducatorSignUp/>} />
+                <Route path="/signup/login" element={<LoginPage/>} />
+                <Route path="/educatorDashboard" element={<EducatorDashboard/>} />
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+
+                {/*/!* Student Dashboard Route *!/*/}
+                {/*<Route path="/dashboard" element={<StudentDashboard />} />*/}
+
+                {/*/!* Course Page Route *!/*/}
+                {/*<Route path="/courses/:courseId" element={<CoursePage />} />*/}
+
+                {/*/!* Lesson Page Route *!/*/}
+                {/*<Route path="/courses/:courseId/lessons/:lessonId" element={<LessonPage />} />*/}
+
+                {/*/!* Progress Tracking Route *!/*/}
+                {/*<Route path="/progress" element={<ProgressTrackingPage />} />*/}
+
+                {/*/!* Settings Page Route *!/*/}
+                {/*<Route path="/settings" element={<SettingsPage />} />*/}
+
+                {/*/!* Admin Dashboard Route *!/*/}
+                {/*<Route path="/admin" element={<AdminDashboard />} />*/}
+
+                {/*/!* 404 Not Found Route *!/*/}
+                {/*<Route path="*" element={<div>Page not found</div>} />*/}
+            </Routes>
+        </Router>
+            </EducatorProvider>
+    );
 }
 
-export default App
+export default App;
